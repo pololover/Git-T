@@ -1,0 +1,64 @@
+from collections import deque
+
+def turn(direction, c):
+  if c == "L":
+    direction = (direction-1)%4
+  else :
+    direction = (direction+1)%4
+  return direction
+
+dy = [0,1,0,-1]
+dx = [1,0,-1,0]
+
+def start():
+  direction = 0
+  time =0
+  
+  y,x = 1,1
+  array[y][x] = 2
+  visited = deque([[y,x]])
+  
+  while True:
+
+    ny = y + dy[direction]
+    nx = x + dx[direction]
+    if ny<=N and ny>=1 and nx<=N and nx>=1 and array[ny][nx] !=2:
+
+      if not array[ny][nx] == 1:
+        py,px = visited.popleft()
+        array[py][px] = 0
+      array[ny][nx] = 2
+      visited.append([ny,nx])
+      time+=1
+      y,x = ny,nx
+
+      if time in times.keys():
+        direction = turn(direction, times[time])
+      
+    else:
+      time+=1
+      return time
+
+
+
+
+
+
+if __name__ == "__main__":
+  N = int(input())
+  K = int(input())
+
+  array  = [[0]*(N+1) for _ in range(N+1)]
+  for i in range(K):
+    a,b = map(int,input().split())
+    array[a][b] = 1
+  times = {}
+
+  l = int(input())
+  for i in range(l):
+    x,c = input().split()
+    times[int(x)] = c
+
+  
+  print(start())
+
