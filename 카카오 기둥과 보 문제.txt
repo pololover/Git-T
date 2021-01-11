@@ -1,0 +1,29 @@
+def possible(answer):
+  for a,b,stuff in answer:
+    if stuff == 0: # 기둥일 때
+      if b==0 or [a-1,b,1] in answer or [a,b,1]in answer or [a,b-1,0] in answer :
+        continue
+      return False
+    else : #보일 때
+      if [a,b-1,0] in answer or [a+1,b-1,0] in answer or ([a-1,b,1] in answer and [a+1,b,1] in answer):
+        continue
+      return False
+  return True
+
+def solution(n, build_frame):
+    answer = []
+
+    for frame in build_frame: #주어진 build에서 각각의 배열값을 가져옴
+      x,y,a,b = frame
+
+      if b == 0:
+        answer.remove([x,y,a]) #제거
+        if not possible(answer): #answer가 가능하지 않다면
+          answer.append([x,y,a])
+      else :
+        answer.append([x,y,a])
+        if not possible(answer):
+          answer.remove([x,y,a])
+
+
+    return sorted(answer) #앞의 값을 기준으로 정렬
